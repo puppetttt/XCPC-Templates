@@ -1,6 +1,6 @@
 import posixpath
 import re
-
+import os
 import yaml
 
 
@@ -20,13 +20,12 @@ def escape_latex_special_chars(text):
         '~': r'\textasciitilde{}',
         '^': r'\textasciicircum{}'
     }
-    # 使用正则表达式替换所有特殊字符
-    return re.sub('|'.join(re.escape(key) for key in special_chars.keys()), 
+    return re.sub('|'.join(re.escape(key) for key in special_chars.keys()),
                   lambda match: special_chars[match.group()], text)
 
 
 def read_file(file_path):
-    if not posixpath.isfile(file_path):
+    if not os.path.isfile(file_path):
         raise FileNotFoundError(f"文件不存在：{file_path}")
 
     with open(file_path, "r", encoding="UTF-8") as f:
@@ -40,7 +39,7 @@ def get_config(directory):
     ]
 
     for config_path in config_paths:
-        if not posixpath.isfile(config_path):
+        if not os.path.isfile(config_path):
             continue
 
         with open(config_path, "r", encoding="UTF-8") as f:
@@ -51,6 +50,18 @@ def get_config(directory):
             return config
 
     raise FileNotFoundError(f"目录 {directory} 未找到配置文件")
+
+
+def detect_style_by_extension(filename: str) -> str:
+    """根据文件扩展名返回 LaTeX lstlisting style"""
+    if filename.endswith(".cpp"):
+        return "cppstyle"
+    elif filename.endswith(".java"):
+        return "javastyle"
+    elif filename.endswith(".py"):
+        return "pythonstyle"
+    else:
+        return ""  # 默认无 style
 
 
 # 生成代码块 LaTeX 内容
@@ -71,24 +82,45 @@ def generate_latex_for_item(directory, item, depth):
     else:
         raise ValueError(f"目录 {directory} 配置过深")
 
-    for code_type in ["code-pre", "code", "code-post"]:
-        if code_type not in item:
-            continue
+    # 处理 code-pre
+    if "code-pre" in item:
+        file_path = posixpath.join(directory, item["code-pre"])
+        contents = read_file(file_path)
+        latex_parts.append(contents + "\n")
 
-        file_path = posixpath.join(directory, item[code_type])
+    # 处理 codes (支持字符串或数组)
+    if "codes" in item:
+        codes_value = item["codes"]
 
-        if code_type == "code":
-            if not posixpath.isfile(file_path):
-                raise FileNotFoundError(f"{code_type} 文件不存在：{file_path}")
-
-            caption = escape_latex_special_chars(item.get("caption", ""))
-            latex_parts.append(
-                f"\\lstinputlisting[caption={{{caption}}}]{{{file_path}}}\n"
-            )
+        if isinstance(codes_value, str):  # 单个文件
+            codes_list = [codes_value]
+        elif isinstance(codes_value, list):  # 多个文件
+            codes_list = codes_value
+        elif codes_value is None:  # 空值
+            codes_list = []
         else:
-            contents = read_file(file_path)
-            latex_parts.append(contents)
-            latex_parts.append("\n")
+            raise ValueError(f"codes 字段格式错误: {codes_value}")
+
+        for code_file in codes_list:
+            file_path = posixpath.join(directory, code_file)
+            if not os.path.isfile(file_path):
+                raise FileNotFoundError(f"代码文件不存在：{file_path}")
+
+            style = detect_style_by_extension(code_file)
+            if style:
+                latex_parts.append(
+                    f"\\lstinputlisting[style={style}]{{{file_path}}}\n"
+                )
+            else:
+                latex_parts.append(
+                    f"\\lstinputlisting{{{file_path}}}\n"
+                )
+
+    # 处理 code-post
+    if "code-post" in item:
+        file_path = posixpath.join(directory, item["code-post"])
+        contents = read_file(file_path)
+        latex_parts.append(contents + "\n")
 
     return "\n".join(latex_parts)
 
@@ -101,7 +133,7 @@ def generate_latex_from_config(directory, depth=0):
         if "directory" in item:
             subdir_path = posixpath.join(directory, item["directory"])
 
-            if not posixpath.isdir(subdir_path):
+            if not os.path.isdir(subdir_path):
                 raise NotADirectoryError(f"子目录不存在或不是目录：{subdir_path}")
 
             latex_sections.append(generate_latex_for_item(directory, item, depth))
@@ -135,7 +167,7 @@ def generate_latex(root_dir):
 
     code_root = config.get("root-directory", "./templates")
 
-    if not posixpath.isdir(code_root):
+    if not os.path.isdir(code_root):
         raise NotADirectoryError(f"模板根目录不存在或不是一个目录：{code_root}")
 
     latex_content = generate_latex_from_config(code_root)
@@ -158,4 +190,3 @@ if __name__ == "__main__":
     output_file = "output.tex"
     write_latex_file(latex_content, output_file)
     print(f"LaTeX 文件已生成：{output_file}")
-

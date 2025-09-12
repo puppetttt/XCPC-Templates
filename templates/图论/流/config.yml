@@ -1,3 +1,4 @@
-contents:
+﻿contents:
   - name: maxFlow
-    code: maxFlow.cpp
+    codes:
+      - maxFlow.cpp

@@ -32,8 +32,14 @@ function Process-Directory {
                 Process-Directory -CurrentDir $Entry.FullName
             }
         } elseif (-not ($Entry.Name -eq 'config.yml')) {
-            # Get base name
+            $BaseName = $null
+
+            # Check file type and get base name
             if ($Entry.Name -like '*.cpp') {
+                $BaseName = $Entry.BaseName
+            } elseif ($Entry.Name -like '*.java') {
+                $BaseName = $Entry.BaseName
+            } elseif ($Entry.Name -like '*.py') {
                 $BaseName = $Entry.BaseName
             } elseif ($Entry.Name -like '*-pre.tex') {
                 $BaseName = $Entry.BaseName -replace '-pre$', ''
@@ -44,25 +50,32 @@ function Process-Directory {
                 return  # Skip other irrelevant files
             }
 
-            # If this file has not been processed before
-            if (-not $ProcessedFiles.ContainsKey($BaseName)) {
+            if ($null -ne $BaseName -and -not $ProcessedFiles.ContainsKey($BaseName)) {
                 # Mark as processed
                 $ProcessedFiles[$BaseName] = $true
 
-                # Prepare to start generating entries
+                # Start entry
                 Add-Content -Path $OutputFile -Value "  - name: $BaseName"
 
-                # Process .cpp files if they exist
-                if (Test-Path (Join-Path -Path $currentDir -ChildPath "$baseName.cpp")) {
-                    Add-Content -Path $outputFile -Value "    code: $baseName.cpp"
+                # Collect codes (cpp/java/py)
+                Add-Content -Path $OutputFile -Value "    codes:"
+
+                if (Test-Path (Join-Path -Path $CurrentDir -ChildPath "$BaseName.cpp")) {
+                    Add-Content -Path $OutputFile -Value "      - $BaseName.cpp"
+                }
+                if (Test-Path (Join-Path -Path $CurrentDir -ChildPath "$BaseName.java")) {
+                    Add-Content -Path $OutputFile -Value "      - $BaseName.java"
+                }
+                if (Test-Path (Join-Path -Path $CurrentDir -ChildPath "$BaseName.py")) {
+                    Add-Content -Path $OutputFile -Value "      - $BaseName.py"
                 }
 
                 # Process pre-code and post-code files
-                if (Test-Path (Join-Path -Path $currentDir -ChildPath "$baseName-pre.tex")) {
-                    Add-Content -Path $outputFile -Value "    code-pre: $baseName-pre.tex"
+                if (Test-Path (Join-Path -Path $CurrentDir -ChildPath "$BaseName-pre.tex")) {
+                    Add-Content -Path $OutputFile -Value "    code-pre: $BaseName-pre.tex"
                 }
-                if (Test-Path (Join-Path -Path $currentDir -ChildPath "$baseName-post.tex")) {
-                    Add-Content -Path $outputFile -Value "    code-post: $baseName-post.tex"
+                if (Test-Path (Join-Path -Path $CurrentDir -ChildPath "$BaseName-post.tex")) {
+                    Add-Content -Path $OutputFile -Value "    code-post: $BaseName-post.tex"
                 }
             }
         }

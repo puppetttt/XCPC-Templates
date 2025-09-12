@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Initialize recursive option to false
 RECURSIVE=false
@@ -43,11 +43,15 @@ process_directory() {
 
       # Check the file type and get the base name
       if [[ "$filename" == *.cpp ]]; then
-        base_name="${filename%.cpp}"  # Remove .cpp
+        base_name="${filename%.cpp}"
+      elif [[ "$filename" == *.java ]]; then
+        base_name="${filename%.java}"
+      elif [[ "$filename" == *.py ]]; then
+        base_name="${filename%.py}"
       elif [[ "$filename" == *-pre.tex ]]; then
-        base_name="${filename%-pre.tex}"  # Remove -pre.tex
+        base_name="${filename%-pre.tex}"
       elif [[ "$filename" == *-post.tex ]]; then
-        base_name="${filename%-post.tex}"  # Remove -post.tex
+        base_name="${filename%-post.tex}"
       else
         echo "Unrecognized file: $filename"
         continue  # Skip other unrelated files
@@ -55,15 +59,22 @@ process_directory() {
       
       # If this file has not been processed before
       if [ -z "${processed_files[$base_name]}" ]; then
-        # Mark as processed
-        processed_files[$base_name]=1
+        processed_files[$base_name]=1  # Mark as processed
 
         # Prepare to start generating entries
         echo "  - name: $base_name" | iconv -t UTF-8 >> "$output_file"
 
-        # Process .cpp files if they exist
+        # Collect possible codes into an array
+        echo "    codes:" | iconv -t UTF-8 >> "$output_file"
+
         if [ -f "$current_dir/$base_name.cpp" ]; then
-          echo "    code: $base_name.cpp" | iconv -t UTF-8 >> "$output_file"
+          echo "      - $base_name.cpp" | iconv -t UTF-8 >> "$output_file"
+        fi
+        if [ -f "$current_dir/$base_name.java" ]; then
+          echo "      - $base_name.java" | iconv -t UTF-8 >> "$output_file"
+        fi
+        if [ -f "$current_dir/$base_name.py" ]; then
+          echo "      - $base_name.py" | iconv -t UTF-8 >> "$output_file"
         fi
 
         # Process pre-code and post-code files
