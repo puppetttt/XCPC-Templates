@@ -6,7 +6,7 @@
 - 你也并**不需要安装臃肿的 LaTeX 环境（你甚至不需要会 LaTeX 语法）**；
 - 你**只需要提供你的模板文件并且加以简单配置**，就能借助 GitHub Action 生成你的模板 PDF 到 Releases 一栏！
 
-具体生成结果可以参考本项目的 Releases 结果。
+具体生成结果可以参考[本项目的 Releases](https://github.com/llleixx/XCPC-Templates/releases)以及[该项目的 Releases](https://github.com/llleixx/My-XCPC-Templates)。
 
 ## 如何使用该项目？
 
