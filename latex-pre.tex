@@ -43,7 +43,7 @@
 \fancyfoot[C]{\thepage} % 页脚中间显示页码
 
 % 代码样式设置
-\lstset{
+\lstdefinestyle{cppstyle}{
   language=C++, % 语言设置为 C++
   basicstyle=\ttfamily\small\linespread{1.1}\selectfont,
   keywordstyle=\color{blue}\bfseries, % 关键字颜色
@@ -63,6 +63,45 @@
   captionpos=b % 标题位置
 }
 
+\lstdefinestyle{pythonstyle}{
+  language=Python, % 语言设置为 Python
+  basicstyle=\ttfamily\small\linespread{1.1}\selectfont,
+  keywordstyle=\color{blue}\bfseries, % 关键字颜色
+  commentstyle=\color{gray}\itshape, % 注释颜色，斜体
+  stringstyle=\color{red}, % 字符串颜色
+  numbers=left, % 行号显示在左侧
+  numberstyle=\small\color{gray}, % 行号样式
+  stepnumber=1, % 行号递增
+  numbersep=10pt, % 行号和代码的间隔
+  backgroundcolor=\color{gray!5},
+  showspaces=false, % 不显示空格
+  showstringspaces=false, % 字符串中不显示空格
+  breaklines=true, % 自动换行
+  frame=single, % 给代码添加边框
+  rulecolor=\color{black!30}, % 边框颜色
+  tabsize=4, % 设置 Tab 宽度
+  captionpos=b % 标题位置
+}
+
+\lstdefinestyle{javastyle}{
+  language=Java, % 语言设置为 Java
+  basicstyle=\ttfamily\small\linespread{1.1}\selectfont,
+  keywordstyle=\color{blue}\bfseries, % 关键字颜色
+  commentstyle=\color{gray}\itshape, % 注释颜色，斜体
+  stringstyle=\color{red}, % 字符串颜色
+  numbers=left, % 行号显示在左侧
+  numberstyle=\small\color{gray}, % 行号样式
+  stepnumber=1, % 行号递增
+  numbersep=10pt, % 行号和代码的间隔
+  backgroundcolor=\color{gray!5},
+  showspaces=false, % 不显示空格
+  showstringspaces=false, % 字符串中不显示空格
+  breaklines=true, % 自动换行
+  frame=single, % 给代码添加边框
+  rulecolor=\color{black!30}, % 边框颜色
+  tabsize=4, % 设置 Tab 宽度
+  captionpos=b % 标题位置
+}
 
 % 标题样式设置
 \usepackage{titlesec}
