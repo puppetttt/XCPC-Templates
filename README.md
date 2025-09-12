@@ -12,7 +12,11 @@
 
 你只需要的是：
 
-1. 点击本项目右上角 `Use this template` 中的 `create a new repository` 来创建你自己的项目；
+1. fork 本项目，并在以下界面确保**开启 GitHub Action**；
+
+    <img width="2181" height="1378" alt="action" src="https://github.com/user-attachments/assets/ac69cace-b0d5-40b1-a922-565292c06872" />
+
+
 2. 将你的的项目 Clone 到本地；
 3. 在 `templates` 目录下构建你自己的算法模板结构；
 4. 修改项目根目录的 `config.yml`；
@@ -27,9 +31,7 @@
 6. 根据你期望的章节顺序或者章节名称对各个目录下的 `config.yml` 进行微调；
 7. 提交修改，并 `push` 到 GitHub。
 
-**更推荐你使用 GitHub template repository 来创建你的项目**。
-
-**但如果你是通过 Fork 来创建项目，GitHub 会默认自动禁用 Action 功能，你需要在项目的 Actions 页面下开启 Action 功能**。
+（如果你不想 fork，你也可以使用 GitHub template repository 来创建你的项目，点击该项目右上角的 `Use this template`，坏处是这样会难以跟踪本项目的修改。）
 
 当以上准备完毕，你就可以通过以下步骤来自动构建你的模板文件：
 
@@ -90,8 +92,7 @@ author: UESTC_Nanana
 配置项|类型|描述
 ---|---|---
 `name`|String|声明该 code 名称
-`code`|String|指定代码文件
-`caption`|String|代码说明性文字
+`codes`|String or List|指定代码文件或文件列表
 `code-pre`|String|在代码之前的说明性文字
 `code-post`|String|在代码之后的说明性文字
 
@@ -106,8 +107,12 @@ contents:
     code-pre: lca-pre.tex
     code-post: lca-post.tex
   - name: 树状数组
-    caption: optional
     code: fenwick-tree.cpp
+  - name: 快排
+    code:
+      - qsort.cpp
+      - qsort.py
+      - qsort.java
   # 如果未配置 code，就代表只会生成对应的文本
   - name: 排列组合
     code-pre: 排列组合-pre.tex
@@ -121,7 +126,7 @@ contents:
 
 对于子目录，生成对应子章节，如果启用递归模式，就会递归下去。
 
-对于 `x.cpp`，`x-pre.tex` 和 `x-post.tex` 文件，会自动组装成一项到配置文件中，这三者可以自由搭配组合。
+对于 `x.cpp/java/py`，`x-pre.tex` 和 `x-post.tex` 文件，会自动组装成一项到配置文件中，这三者可以自由搭配组合。
 
 ## 注意事项
 
@@ -144,12 +149,28 @@ contents:
     1. 在 `./.github/workflows/template-sync.yml` 下取消注释
     2. 在 GitHub 项目 Setting -> Actions -> General 页面中最下面勾选 `Allow GitHub Actions to create and approve pull requests` 并 Save
   
-## 更多的自定义
+## 其他
 
-### 我想要修改格式
+### 修改格式
 
 你可以通过更改 `latex-pre.tex` 和 `latex-post.tex` 达成效果。
 
-### 我想要更改字体
+同时，本项目提供更加紧凑的格式，在项目根目录的 `config.yml` 中修改 `latex-pre` 字段为 `latex-compact-pre.tex` 即可。
+
+### 更改字体
 
 你可以通过更改修改 `script.sh` 文件修改下载的字体，并在 `latex-pre.tex` 中指定字体。
+
+目前所使用的英文字体为 Inconsolata LGC Nerd Font Mono，位于 [inconsolata-nerd-font](https://www.ctan.org/pkg/inconsolata-nerd-font) 包中；所使用的中文字体为 Source Han Sans HW SC，[Regular](https://raw.githubusercontent.com/adobe-fonts/source-han-sans/release/OTF/SimplifiedChineseHW/SourceHanSansHWSC-Regular.otf) 和 [Bold](https://raw.githubusercontent.com/adobe-fonts/source-han-sans/release/OTF/SimplifiedChineseHW/SourceHanSansHWSC-Bold.otf)。
+
+### 本地电脑上编译为 PDF
+
+1. 确保拥有 LaTeX 相关环境并且已安装 Python
+2. 安装 Python 依赖（推荐使用 Python 虚拟环境）：`pip install -r requirements.txt`
+3. 确保拥有相关字体
+    
+    字体信息在上一节有提到，确保 LaTeX 有安装 inconsolata-nerd-font 包，并且在本地电脑上**为所有用户安装** Source Han Sans HW SC 字体
+
+4. 生成配置文件：`./gen.sh -r ./templates` 或 `.\gen.ps1 -r .\templates`
+5. 生成 tex 文件：`python main.py`
+6. 生成 PDF 文件：`latexmk -xelatex output.tex`
