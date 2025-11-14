@@ -103,17 +103,17 @@ contents:
   - name: 流
     directory: 流
   - name: 最近公共祖先
-    code: lca.cpp
+    codes: lca.cpp
     code-pre: lca-pre.tex
     code-post: lca-post.tex
   - name: 树状数组
-    code: fenwick-tree.cpp
+    codes: fenwick-tree.cpp
   - name: 快排
-    code:
+    codes:
       - qsort.cpp
       - qsort.py
       - qsort.java
-  # 如果未配置 code，就代表只会生成对应的文本
+  # 如果未配置 codes，就代表只会生成对应的文本
   - name: 排列组合
     code-pre: 排列组合-pre.tex
 ```
