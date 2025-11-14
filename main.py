@@ -2,6 +2,7 @@ import posixpath
 import re
 import os
 import yaml
+import argparse
 
 
 def escape_latex_special_chars(text):
@@ -32,8 +33,13 @@ def read_file(file_path):
         return f.read()
 
 
-def get_config(directory):
-    config_paths = [
+def get_config(directory, filename=None):
+    config_paths = []
+
+    if filename:
+        config_paths.append(posixpath.join(directory, filename))
+
+    config_paths += [
         posixpath.join(directory, "config.yml"),
         posixpath.join(directory, "config.yaml"),
     ]
@@ -45,7 +51,7 @@ def get_config(directory):
         with open(config_path, "r", encoding="UTF-8") as f:
             config = yaml.safe_load(f)
             if config is None:
-                raise ValueError(f"配置文件 {config_path} 为空或有误")
+                continue
 
             return config
 
@@ -144,8 +150,8 @@ def generate_latex_from_config(directory, depth=0):
     return "\n".join(latex_sections)
 
 
-def generate_latex(root_dir):
-    config = get_config(root_dir)
+def generate_latex(root_dir, root_config_filename=None):
+    config = get_config(root_dir, root_config_filename)
 
     latex_pre = ""
     latex_post = ""
@@ -184,9 +190,18 @@ def write_latex_file(latex_content, output_file):
 
 
 if __name__ == "__main__":
-    root_dir = "./"
+    parser = argparse.ArgumentParser(description="Generate LaTeX from templates.")
+    parser.add_argument(
+        "--root-dir", default="./", help="Specify the root directory."
+    )
+    parser.add_argument(
+        "--config-file", default=None, help="Specify the config file name in the root directory."
+    )
+    parser.add_argument(
+        "--output-file", default="output.tex", help="Specify the output file name."
+    )
+    args = parser.parse_args()
 
-    latex_content = generate_latex(root_dir)
-    output_file = "output.tex"
-    write_latex_file(latex_content, output_file)
-    print(f"LaTeX 文件已生成：{output_file}")
+    latex_content = generate_latex(args.root_dir, args.config_file)
+    write_latex_file(latex_content, args.output_file)
+    print(f"LaTeX 文件已生成：{args.output_file}")
