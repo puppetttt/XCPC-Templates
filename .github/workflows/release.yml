@@ -20,7 +20,7 @@ jobs:
           # cache not work because restriction between different tags
           # cache: 'pip'
       - run: |
-          pip install -r requirements.txt
+          pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
           python main.py --output-file output.tex
           python main.py --config-file config-compact.yml --output-file output-compact.tex
       - run: |
