@@ -1,8 +1,0 @@
-﻿contents:
-  - name: 流
-    directory: 流
-  - name: lca
-    codes:
-      - lca.cpp
-    code-pre: lca-pre.tex
-    code-post: lca-post.tex

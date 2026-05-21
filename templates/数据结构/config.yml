@@ -1,6 +1,0 @@
-﻿contents:
-  - name: disjoint_set_union
-    codes:
-      - disjoint_set_union.cpp
-  - name: fenwick-tree
-    codes: fenwick-tree.cpp

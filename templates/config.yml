@@ -1,12 +1,73 @@
 ﻿contents:
-  - name: 图论
-    directory: 图论
-  - name: 数学
-    directory: 数学
-  - name: 数据结构
-    directory: 数据结构
-  - name: qsort
+  - name: bb
     codes:
-      - qsort.cpp
-      - qsort.java
-      - qsort.py
+      - bb.cpp
+  - name: bcj
+    codes:
+      - bcj.cpp
+  - name: dd
+    codes:
+      - dd.cpp
+  - name: dijkstra
+    codes:
+      - dijkstra.cpp
+  - name: eft
+    codes:
+      - eft.cpp
+  - name: floyd
+    codes:
+      - floyd.cpp
+  - name: hash
+    codes:
+      - hash.cpp
+  - name: jz
+    codes:
+      - jz.cpp
+  - name: kmp
+    codes:
+      - kmp.cpp
+  - name: kruskal
+    codes:
+      - kruskal.cpp
+  - name: lks
+    codes:
+      - lks.cpp
+  - name: mb
+    codes:
+      - mb.cpp
+  - name: md
+    codes:
+      - md.cpp
+  - name: ol
+    codes:
+      - ol.cpp
+  - name: pr
+    codes:
+      - pr.cpp
+  - name: sp
+    codes:
+      - sp.cpp
+  - name: st
+    codes:
+      - st.cpp
+  - name: szsz
+    codes:
+      - szsz.cpp
+  - name: tarjan
+    codes:
+      - tarjan.cpp
+  - name: tppx
+    codes:
+      - tppx.cpp
+  - name: xxj
+    codes:
+      - xxj.cpp
+  - name: zds
+    codes:
+      - zds.cpp
+  - name: zhs
+    codes:
+      - zhs.cpp
+  - name: zxs
+    codes:
+      - zxs.cpp
