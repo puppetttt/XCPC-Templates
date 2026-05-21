@@ -1,73 +1,74 @@
 ﻿contents:
-  - name: bb
-    codes:
-      - bb.cpp
-  - name: bcj
-    codes:
-      - bcj.cpp
-  - name: dd
-    codes:
-      - dd.cpp
-  - name: dijkstra
-    codes:
-      - dijkstra.cpp
-  - name: eft
-    codes:
-      - eft.cpp
-  - name: floyd
-    codes:
-      - floyd.cpp
-  - name: hash
-    codes:
-      - hash.cpp
-  - name: jz
-    codes:
-      - jz.cpp
-  - name: kmp
-    codes:
-      - kmp.cpp
-  - name: kruskal
-    codes:
-      - kruskal.cpp
-  - name: lks
-    codes:
-      - lks.cpp
-  - name: mb
+  - name: 模板
     codes:
       - mb.cpp
-  - name: md
+  - name: 二分图
     codes:
-      - md.cpp
-  - name: ol
+      - eft.cpp
+  - name: 并查集
+    codes:
+      - bcj.cpp
+  - name: 单调队列单调栈
+    codes:
+      - dd.cpp
+  - name: 背包
+    codes:
+      - bb.cpp
+  - name: 最短路
+    codes:
+      - dijkstra.cpp
+  - name: 最小生成树
+    codes:
+      - kruskal.cpp
+  - name: Floyd
+    codes:
+      - floyd.cpp
+  - name: 欧拉筛
     codes:
       - ol.cpp
-  - name: pr
-    codes:
-      - pr.cpp
-  - name: sp
-    codes:
-      - sp.cpp
-  - name: st
-    codes:
-      - st.cpp
-  - name: szsz
+  - name: 树状数组
     codes:
       - szsz.cpp
+  - name: KMP
+    codes:
+      - kmp.cpp
+  - name: Hash
+    codes:
+      - hash.cpp
+  - name: 二进制枚举
+    codes:
+      - jz.cpp
+  - name: 拓扑排序
+    codes:
+      - tppx.cpp
+  - name: 字典树
+    codes:
+      - zds.cpp
+  - name: st表
+    codes:
+      - st.cpp
   - name: tarjan
     codes:
       - tarjan.cpp
-  - name: tppx
+  - name: Pollard-Rho
     codes:
-      - tppx.cpp
-  - name: xxj
-    codes:
-      - xxj.cpp
-  - name: zds
-    codes:
-      - zds.cpp
-  - name: zhs
-    codes:
-      - zhs.cpp
-  - name: zxs
+      - pr.cpp
+- name: 主席树
     codes:
       - zxs.cpp
+- name: 莫队
+    codes:
+      - md.cpp
+- name: 树链剖分
+    codes:
+      - sp.cpp
+- name: 线性基
+    codes:
+      - xxj.cpp
+- name: 组合数
+    codes:
+      - zhs.cpp
+- name: 卢卡斯
+    codes:
+      - lks.cpp
+
